@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- JQuery import -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Upload file form -->
+  <form id="upload-file-form">
+    <label for="upload-file-input">Upload your file:</label>
+    <input id="upload-file-input" type="file" name="uploadfile" accept="*" />
+    <br />
+    <span id="upload-file-message"></span>
+  </form>
+  <br />
+  <hr />
+    <!-- Upload file form -->
+  <form id="submitForm">
+    Email:  <input id="email" type="text" name="email" />
+    <br />
+    name:  <input id="name" type="text" name="name" />
+    <br />
+    phone:  <input id="phone" type="text" name="phone" />
+    <br />
+    <input type="button" id="saveButton" value="Save"/>
+    <span id="submit-message"></span>
+  </form>
+  
+  <!-- Javascript functions -->
+  <script>
+  
+    // bind the on-change event for the input element (triggered when a file
+    // is chosen)
+    $(document).ready(function() {
+      $("#upload-file-input").on("change", uploadFile);
+      
+      $("#saveButton").on("click", function(){
+    	    var email = $("#email").val();
+    	    var name = $("#name").val();
+    	    var phone = $("#phone").val();
+    	    var data = '{"email": "'+email+'", "name": "'+name+'", "phone": "'+phone+'"}';
+    	    console.log(data);
+    	    
+    	      $.ajax({
+    	          url: "/submitData",
+    	          type: "POST",
+    	          data: data,
+    	          contentType: "application/json",
+    	          cache: false,
+    	          success: function (response) {
+    	            // Handle success
+    	            console.log(response);
+    	            $("#submit-message").text("Data is saved succesfully.");
+    	          },
+    	          error: function () {
+    	            // Handle error
+    	            $("#submit-message").text("Something went wrong.");
+    	          }
+    	        });
+      	});
+    });
+    
+    /**
+     * Upload the file sending it via Ajax at the Spring Boot server.
+     */
+    function uploadFile() {
+      $.ajax({
+        url: "/uploadFile",
+        type: "POST",
+        data: new FormData($("#upload-file-form")[0]),
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function () {
+          // Handle upload success
+          $("#upload-file-message").text("File succesfully uploaded");
+        },
+        error: function () {
+          // Handle upload error
+          $("#upload-file-message").text(
+              "File not uploaded (perhaps it's too much big)");
+        }
+      });
+    } // function uploadFile
+
+    function find_max(nums) {
+    	let max_num = Number.NEGATIVE_INFINITY; // smaller than all other numbers
+    	for (var num of nums) {
+	    	if (num > max_num) {
+	    	 // (Fill in the missing line here)
+	    	 }
+    	 }
+    	 return max_num;
+   }
+    
+  </script>
+  
+</body>
+
+</html>

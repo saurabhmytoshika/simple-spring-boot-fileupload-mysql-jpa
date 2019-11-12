@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- JQuery import -->
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+
+<table id="fileUploadDiv">
+
+
+
+</table>
+
+
+ 
+ <script>
+ $(document).ready(function(){
+
+	    $.get("/getUploadedImages", function(data, status){
+	      console.log("Status: " + status);
+	      
+	      if(status == 'success'){
+	    	  $.each(data, function( index, value ) {
+	    		  console.log( index + ": " + value );
+	    		  // to do 
+	    			
+//  	    			  var img = '<img src="'+value.filePath+'"/>';
+// 						  var img = '<img src="../image/img1.jpg>';
+// 	    		  $("#fileUploadDiv").append('<tr><td>'+value.fileId+'</td><td>'+value.fileName+'</td><td style="height: 100px; width: 100px; background: yellow;">'+img+'</td></tr>');
+ 	    			 $("#fileUploadDiv").append('<tr><td>'+value.fileId+'</td><td>'+value.fileName+'</td><td style="height: 100px; width: 100px;"><img src="'+value.filePath+'"/></td></tr>');
+	    	  });
+	      }
+	    });
+
+	});
+  </script>
+</body>
+</html>
